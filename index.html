@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Imali</title>
+<title>MyPocket</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -37,40 +37,124 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
 .screen.active{display:block}
 @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
+/* ─── LOGIN SCREEN ─── */
+#login-screen{
+  position:absolute;inset:0;z-index:500;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:40px 32px max(48px,env(safe-area-inset-bottom));
+  animation:up .35s ease both;
+}
+#login-screen.exit{
+  animation:loginOut .4s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes loginOut{
+  from{opacity:1;transform:translateY(0)}
+  to{opacity:0;transform:translateY(-24px)}
+}
+
+.login-logo{
+  width:72px;height:72px;
+  border-radius:20px;
+  background:var(--s1);
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
+  box-shadow:0 0 48px rgba(214,65,90,.15);
+}
+
+.login-name{
+  font-family:'DM Serif Display',serif;
+  font-size:2rem;
+  letter-spacing:-.5px;
+  color:var(--t1);
+  margin-bottom:6px;
+}
+.login-tagline{
+  font-size:12.5px;
+  color:var(--t3);
+  margin-bottom:48px;
+  letter-spacing:.1px;
+}
+
+.login-fields{width:100%;max-width:320px;margin-bottom:14px;}
+.lf{
+  background:var(--s1);
+  border:1px solid var(--border2);
+  border-radius:13px;
+  color:var(--t1);
+  padding:14px 16px;
+  width:100%;
+  outline:none;
+  font-family:inherit;
+  font-size:15px;
+  transition:border-color .18s;
+  -webkit-appearance:none;
+  margin-bottom:10px;
+  display:block;
+}
+.lf:focus{border-color:var(--accent);}
+.lf::placeholder{color:var(--t3);}
+
+.login-btn{
+  width:100%;max-width:320px;
+  padding:15px;
+  background:var(--accent);
+  border:none;border-radius:13px;
+  color:#fff;
+  font-family:inherit;font-weight:700;font-size:15px;
+  cursor:pointer;
+  letter-spacing:.2px;
+  transition:opacity .12s, transform .1s;
+  box-shadow:0 6px 28px rgba(214,65,90,.30);
+}
+.login-btn:active{opacity:.85;transform:scale(.98);}
+
+.login-divider{
+  width:100%;max-width:320px;
+  display:flex;align-items:center;gap:12px;
+  margin:20px 0;
+}
+.login-divider span{font-size:11px;color:var(--t3);}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.login-ghost{
+  width:100%;max-width:320px;
+  padding:14px;
+  background:transparent;
+  border:1px solid var(--border2);
+  border-radius:13px;
+  color:var(--t2);
+  font-family:inherit;font-weight:500;font-size:14px;
+  cursor:pointer;
+  transition:border-color .15s,color .15s;
+}
+.login-ghost:hover{border-color:rgba(255,255,255,.2);color:var(--t1);}
+
+.login-footer{
+  position:absolute;bottom:max(28px,env(safe-area-inset-bottom));
+  font-size:10.5px;color:var(--t3);letter-spacing:.3px;
+}
+
+/* ─── REST OF APP (unchanged) ─── */
 .card{background:var(--s1);border:1px solid var(--border);border-radius:var(--rc);padding:18px;margin-bottom:10px}
 .serif{font-family:'DM Serif Display',serif}
 .label{font-size:10px;font-weight:500;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);margin-bottom:5px;display:block}
 .page-title{font-family:'DM Serif Display',serif;font-size:28px;color:var(--t1);letter-spacing:-.3px;margin-bottom:20px}
-
-/* NAV */
 #nav{background:var(--s1);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;padding:10px 0 max(18px,env(safe-area-inset-bottom));flex-shrink:0;z-index:10}
 .nb{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 18px;border-radius:10px;color:var(--t3);font-size:10px;font-weight:500;font-family:inherit;letter-spacing:.2px;transition:color .18s}
 .nb.on{color:var(--accent)}
 .nb svg{width:20px;height:20px;display:block}
-
-/* FAB */
 #fab{position:absolute;bottom:100px;right:18px;z-index:9;width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(214,65,90,.35);transition:transform .12s}
 #fab:active{transform:scale(.93)}
-
-/* balance */
 .bal-num{font-family:'DM Serif Display',serif;font-size:34px;letter-spacing:-.5px;line-height:1.15;word-break:break-word}
 .bal-cur{font-size:18px;opacity:.5;margin-right:2px;vertical-align:top;margin-top:5px;display:inline-block}
-
-/* progress */
 .pb{height:4px;border-radius:99px;background:var(--s3);overflow:hidden;margin-top:9px}
 .pb-fill{height:100%;border-radius:99px;background:var(--accent);transition:width .45s cubic-bezier(.34,1.2,.64,1)}
-.pb-ok{background:var(--green)}
-.pb-warn{background:var(--orange)}
-.pb-over{background:var(--red)}
-
-/* chip */
+.pb-ok{background:var(--green)}.pb-warn{background:var(--orange)}.pb-over{background:var(--red)}
 .chip{display:inline-flex;align-items:center;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600}
-.chip-g{background:rgba(48,209,88,.12);color:var(--green)}
-.chip-r{background:rgba(255,69,58,.1);color:var(--red)}
-.chip-o{background:rgba(255,159,10,.1);color:var(--orange)}
-.chip-n{background:var(--s3);color:var(--t2)}
-
-/* tx row */
+.chip-g{background:rgba(48,209,88,.12);color:var(--green)}.chip-r{background:rgba(255,69,58,.1);color:var(--red)}.chip-o{background:rgba(255,159,10,.1);color:var(--orange)}.chip-n{background:var(--s3);color:var(--t2)}
 .tx-row{display:flex;align-items:center;gap:11px;padding:12px 16px;transition:background .1s}
 .tx-row:active{background:var(--s2)}
 .cat-ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -78,43 +162,27 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
 .tx-desc{font-size:13px;font-weight:500;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tx-sub{font-size:11px;color:var(--t3);margin-top:2px}
 .tx-amt{font-family:'DM Serif Display',serif;font-size:14px;white-space:nowrap}
-.amt-in{color:var(--green)}
-.amt-ex{color:var(--t1)}
+.amt-in{color:var(--green)}.amt-ex{color:var(--t1)}
 .ra{display:flex;gap:5px;align-items:center;margin-left:3px;flex-shrink:0}
 .sep{height:1px;background:var(--border);margin:0 16px}
-
-/* icon buttons */
 .ib{width:28px;height:28px;border-radius:8px;border:1px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;background:var(--s2);color:var(--t2);transition:background .12s;flex-shrink:0}
 .ib:hover{background:var(--s3)}
 .ib-del{border-color:rgba(255,69,58,.18);background:rgba(255,69,58,.07);color:var(--red)}
 .ib-del:hover{background:rgba(255,69,58,.16)}
-
-/* form */
 .fg{margin-bottom:13px}
 .fl{font-size:10px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:7px}
 .fi{background:var(--s2);border:1px solid var(--border2);border-radius:11px;color:var(--t1);padding:13px 14px;width:100%;outline:none;font-family:inherit;font-size:15px;transition:border-color .18s;-webkit-appearance:none;appearance:none}
-.fi:focus{border-color:var(--accent)}
-.fi::placeholder{color:var(--t3)}
-.fi option{background:#1a1a1a;color:#fff}
-
-/* toggles */
+.fi:focus{border-color:var(--accent)}.fi::placeholder{color:var(--t3)}.fi option{background:#1a1a1a;color:#fff}
 .tw{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:4px;display:flex;gap:4px;margin-bottom:14px}
 .tog{flex:1;padding:10px;border:none;border-radius:9px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;background:transparent;color:var(--t3);transition:all .18s}
-.tog.e{background:var(--accent);color:#fff}
-.tog.i{background:var(--green);color:#fff}
-
-/* buttons */
+.tog.e{background:var(--accent);color:#fff}.tog.i{background:var(--green);color:#fff}
 .btn-p{background:var(--accent);border:none;border-radius:12px;color:#fff;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;padding:14px;transition:opacity .12s}
 .btn-p:active{opacity:.82}
 .btn-g{background:var(--s2);border:1px solid var(--border2);border-radius:12px;color:var(--t2);font-family:inherit;font-weight:500;font-size:15px;cursor:pointer;padding:14px}
 .btn-g:hover{background:var(--s3)}
 .btn-d{background:rgba(255,69,58,.12);border:1px solid rgba(255,69,58,.2);border-radius:12px;color:var(--red);font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;padding:14px}
 .btn-d:hover{background:rgba(255,69,58,.22)}
-.br{display:flex;gap:8px;margin-top:10px}
-.br>*{flex:1}
-.br .btn-p{flex:2}
-
-/* overlay */
+.br{display:flex;gap:8px;margin-top:10px}.br>*{flex:1}.br .btn-p{flex:2}
 #ov{display:none;position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:200;align-items:flex-end}
 #ov.open{display:flex;animation:fi .18s ease}
 @keyframes fi{from{opacity:0}to{opacity:1}}
@@ -124,18 +192,11 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
 .shd{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
 .sht{font-family:'DM Serif Display',serif;font-size:21px;color:var(--t1)}
 .bx{width:30px;height:30px;border-radius:50%;background:var(--s2);border:1px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2)}
-
-/* toast */
 #toast{position:absolute;top:18px;left:50%;transform:translateX(-50%);background:var(--s2);border:1px solid var(--border2);border-radius:99px;padding:8px 18px;z-index:300;color:var(--t1);font-weight:500;font-size:12px;white-space:nowrap;display:none;box-shadow:0 6px 24px rgba(0,0,0,.6);animation:up .25s ease}
-
-/* stat */
 .sp{flex:1;background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:13px 11px}
-
-/* set row */
 .sr{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;transition:background .1s;cursor:pointer;border-radius:10px}
 .sr:active{background:var(--s2)}
 .si{width:32px;height:32px;border-radius:9px;background:var(--s2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-right:11px;color:var(--t2);flex-shrink:0}
-
 .ps{flex:1;background:var(--s2);border-radius:11px;padding:12px 9px;text-align:center}
 .empty{text-align:center;padding:32px 16px;color:var(--t3);font-size:13px}
 .chart-svg{display:block;width:100%;overflow:visible}
@@ -143,6 +204,49 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
 </head>
 <body>
 <div id="app">
+
+<!-- ═══════════ LOGIN SCREEN ═══════════ -->
+<div id="login-screen">
+
+  <!-- Logo -->
+  <div class="login-logo">
+    <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+      <!-- Stack of cash bills -->
+      <!-- Bottom bill shadow -->
+      <rect x="4" y="26" width="30" height="8" rx="2.5" fill="#1a1a1a" stroke="rgba(255,255,255,0.08)" stroke-width=".8"/>
+      <!-- Middle bill -->
+      <rect x="4" y="21" width="30" height="8" rx="2.5" fill="#1e2e1a" stroke="rgba(48,209,88,0.22)" stroke-width=".8"/>
+      <rect x="15" y="23.5" width="8" height="3" rx="1.5" fill="rgba(48,209,88,0.35)"/>
+      <!-- Top bill -->
+      <rect x="4" y="15" width="30" height="9" rx="2.5" fill="#1c2b18" stroke="rgba(48,209,88,0.38)" stroke-width=".8"/>
+      <circle cx="19" cy="19.5" r="3" fill="none" stroke="rgba(48,209,88,0.6)" stroke-width="1.2"/>
+      <line x1="8" y1="18" x2="11" y2="18" stroke="rgba(48,209,88,0.4)" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="27" y1="18" x2="30" y2="18" stroke="rgba(48,209,88,0.4)" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="8" y1="21" x2="11" y2="21" stroke="rgba(48,209,88,0.4)" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="27" y1="21" x2="30" y2="21" stroke="rgba(48,209,88,0.4)" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- Top highlight edge -->
+      <rect x="4" y="9" width="30" height="3" rx="1.5" fill="rgba(48,209,88,0.12)" stroke="rgba(48,209,88,0.2)" stroke-width=".8"/>
+    </svg>
+  </div>
+
+  <div class="login-name">MyPocket</div>
+  <div class="login-tagline">Your money, your story.</div>
+
+  <div class="login-fields">
+    <input class="lf" type="email" placeholder="Email address" autocomplete="email">
+    <input class="lf" type="password" placeholder="Password" autocomplete="current-password">
+  </div>
+
+  <button class="login-btn" onclick="doLogin()">Log In</button>
+
+  <div class="login-divider"><span>or</span></div>
+
+  <button class="login-ghost" onclick="doLogin()">Continue with Google</button>
+
+  <div class="login-footer">MyPocket · Made in South Africa</div>
+</div>
+
+<!-- ═══════════ MAIN APP ═══════════ -->
 <div id="main">
 
 <!-- HOME -->
@@ -157,12 +261,10 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
         <div style="font-family:'DM Serif Display',serif;font-size:16px;color:var(--t1)">Sipho</div>
       </div>
     </div>
-    <button onclick="openAddTx()" style="width:36px;height:36px;border-radius:50%;background:var(--s1);border:1px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2);transition:background .12s" onmouseenter="this.style.background='var(--s2)'" onmouseleave="this.style.background='var(--s1)'">
+    <button onclick="openAddTx()" style="width:36px;height:36px;border-radius:50%;background:var(--s1);border:1px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2);transition:background .12s">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
     </button>
   </div>
-
-  <!-- Balance card -->
   <div class="card">
     <span class="label">Available Balance</span>
     <div class="bal-num" id="h-bal"><span class="bal-cur">R</span>0.00</div>
@@ -178,8 +280,6 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
       </div>
     </div>
   </div>
-
-  <!-- Goal -->
   <div class="card" style="display:flex;align-items:center;gap:14px">
     <svg width="54" height="54" viewBox="0 0 54 54" style="flex-shrink:0">
       <circle cx="27" cy="27" r="21" fill="none" stroke="var(--s3)" stroke-width="4"/>
@@ -192,8 +292,6 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
       <div style="font-size:11px;color:var(--t3)">R 10,800 of R 18,000 · Dec 2025</div>
     </div>
   </div>
-
-  <!-- Chart card -->
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
       <div>
@@ -204,8 +302,6 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
     </div>
     <svg id="chart-home" class="chart-svg" viewBox="0 0 280 88" style="height:88px"></svg>
   </div>
-
-  <!-- Recent -->
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
     <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--t1)">Recent</div>
     <div style="font-size:11px;color:var(--t3)" id="tx-count">0</div>
@@ -234,7 +330,7 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
 <div id="s-budget" class="screen">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
     <div class="page-title" style="margin-bottom:0">Budgets</div>
-    <button onclick="openAddBudget()" style="display:flex;align-items:center;gap:5px;padding:8px 13px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-family:inherit;font-weight:600;font-size:13px;cursor:pointer" onclick="openAddBudget()">
+    <button onclick="openAddBudget()" style="display:flex;align-items:center;gap:5px;padding:8px 13px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-family:inherit;font-weight:600;font-size:13px;cursor:pointer">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New
     </button>
   </div>
@@ -278,7 +374,6 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
       <div class="ps"><div style="font-family:'DM Serif Display',serif;font-size:18px" id="acc-net">R 0</div><div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-top:3px" id="acc-nlbl">Net</div></div>
     </div>
   </div>
-  <!-- goal card -->
   <div class="card" style="margin-bottom:10px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <div><span class="label">Savings Goal</span><div style="font-size:13px;font-weight:500;color:var(--t1)">Cape Town Holiday</div></div>
@@ -294,7 +389,6 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
       <span>Target <span style="color:var(--t2);font-weight:600">R 18,000</span></span>
     </div>
   </div>
-  <!-- settings -->
   <div class="card" style="padding:5px 0">
     <div class="sr"><div style="display:flex;align-items:center"><div class="si"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></svg></div><span style="font-size:13.5px;font-weight:500">Currency</span></div><span style="font-size:11px;color:var(--t3)">ZAR ›</span></div>
     <div class="sep"></div>
@@ -302,14 +396,14 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
     <div class="sep"></div>
     <div class="sr"><div style="display:flex;align-items:center"><div class="si"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><span style="font-size:13.5px;font-weight:500">Export Data</span></div><span style="font-size:11px;color:var(--t3)">CSV ›</span></div>
     <div class="sep"></div>
-    <div class="sr"><div style="display:flex;align-items:center"><div class="si"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><span style="font-size:13.5px;font-weight:500">About Imali</span></div><span style="font-size:11px;color:var(--t3)">v1.0 ›</span></div>
-    <div style="padding:12px 16px 6px;text-align:center"><div style="font-size:10px;color:var(--t3);letter-spacing:.3px">Imali · Made in South Africa</div></div>
+    <div class="sr"><div style="display:flex;align-items:center"><div class="si"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><span style="font-size:13.5px;font-weight:500">About MyPocket</span></div><span style="font-size:11px;color:var(--t3)">v1.0 ›</span></div>
+    <div style="padding:12px 16px 6px;text-align:center"><div style="font-size:10px;color:var(--t3);letter-spacing:.3px">MyPocket · Made in South Africa</div></div>
   </div>
 </div>
 
 </div><!-- /main -->
 
-<nav id="nav">
+<nav id="nav" style="display:none">
   <button class="nb on" data-s="home" onclick="go('home')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M9 21V12h6v9"/></svg>Home
   </button>
@@ -324,7 +418,7 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
   </button>
 </nav>
 
-<button id="fab" onclick="openAddTx()">
+<button id="fab" onclick="openAddTx()" style="display:none">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
 </button>
 
@@ -332,7 +426,6 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
 
 <!-- OVERLAY -->
 <div id="ov" onclick="bgClick(event)">
-  <!-- TX sheet -->
   <div class="sheet" id="st" style="display:none">
     <div class="sh"></div>
     <div class="shd">
@@ -343,16 +436,12 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
       <button class="tog e" id="te" onclick="setType('expense')">Expense</button>
       <button class="tog" id="ti" onclick="setType('income')">Income</button>
     </div>
-    <div class="fg" id="cg">
-      <label class="fl">Category</label>
-      <select class="fi" id="tc"></select>
-    </div>
+    <div class="fg" id="cg"><label class="fl">Category</label><select class="fi" id="tc"></select></div>
     <div class="fg"><label class="fl">Description</label><input class="fi" id="td" placeholder="e.g. Pick n Pay Groceries"></div>
     <div class="fg"><label class="fl">Amount (R)</label><input class="fi" id="ta" type="number" placeholder="0.00" min="0" step="0.01" inputmode="decimal"></div>
     <div class="fg"><label class="fl">Date</label><input class="fi" id="tdt" type="date"></div>
     <div class="br"><button class="btn-g" onclick="closeM()">Cancel</button><button class="btn-p" onclick="saveTx()" id="tsb">Add</button></div>
   </div>
-  <!-- Budget sheet -->
   <div class="sheet" id="sb" style="display:none">
     <div class="sh"></div>
     <div class="shd">
@@ -363,7 +452,6 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
     <div class="fg"><label class="fl">Monthly Limit (R)</label><input class="fi" id="bl" type="number" placeholder="e.g. 3000" min="0" step="50" inputmode="numeric"></div>
     <div class="br"><button class="btn-g" onclick="closeM()">Cancel</button><button class="btn-p" onclick="saveBudget()" id="bsb">Set Budget</button></div>
   </div>
-  <!-- Delete sheet -->
   <div class="sheet" id="sd" style="display:none">
     <div class="sh"></div>
     <div style="margin-bottom:18px">
@@ -379,6 +467,19 @@ body{height:100%;overflow:hidden;background:var(--bg);font-family:'DM Sans',sans
 
 </div><!-- /app -->
 <script>
+// ─── LOGIN ───
+function doLogin(){
+  const ls=document.getElementById('login-screen');
+  ls.classList.add('exit');
+  setTimeout(()=>{
+    ls.style.display='none';
+    document.getElementById('nav').style.display='flex';
+    document.getElementById('fab').style.display='flex';
+    renderAll();
+  },380);
+}
+
+// ─── APP DATA ───
 const CATS={
   income:       {l:'Income',        c:'#30D158',ico:'income'},
   food:         {l:'Food & Dining', c:'#FF6B6B',ico:'food'},
@@ -413,45 +514,43 @@ function ico(k,sz=16){
 }
 
 let TXS=[
-  {id:1, type:'income',  cat:'income',        desc:'Monthly Salary — Standard Bank', amt:22500,date:'2025-01-01'},
-  {id:2, type:'expense', cat:'fitness',        desc:'Planet Fitness Membership',      amt:299,  date:'2025-01-02'},
-  {id:3, type:'expense', cat:'utilities',      desc:'Eskom Electricity Prepaid',      amt:850,  date:'2025-01-03'},
-  {id:4, type:'expense', cat:'utilities',      desc:'Telkom Fibre Internet',          amt:799,  date:'2025-01-04'},
-  {id:5, type:'expense', cat:'food',           desc:'Pick n Pay Monthly Shop',        amt:1240, date:'2025-01-06'},
-  {id:6, type:'expense', cat:'transport',      desc:'Shell Petrol Sandton',           amt:850,  date:'2025-01-08'},
-  {id:7, type:'expense', cat:'entertainment',  desc:'Netflix Premium',                amt:199,  date:'2025-01-10'},
-  {id:8, type:'expense', cat:'shopping',       desc:'Woolworths Clothing',            amt:1367, date:'2025-01-12'},
-  {id:9, type:'expense', cat:'food',           desc:'Checkers Weekend Shop',          amt:456,  date:'2025-01-14'},
-  {id:10,type:'expense', cat:'transport',      desc:'Uber Rides — January',           amt:340,  date:'2025-01-15'},
-  {id:11,type:'expense', cat:'entertainment',  desc:'DStv Compact Plus',              amt:899,  date:'2025-01-18'},
-  {id:12,type:'expense', cat:'food',           desc:"Nando's Family Dinner",          amt:520,  date:'2025-01-20'},
-  {id:13,type:'expense', cat:'shopping',       desc:'Takealot — Home Essentials',     amt:589,  date:'2025-01-22'},
-  {id:14,type:'income',  cat:'income',         desc:'Freelance Design Project',       amt:4500, date:'2025-01-25'},
-  {id:15,type:'expense', cat:'food',           desc:'Spar Weekend Groceries',         amt:678,  date:'2025-01-27'},
-  {id:16,type:'expense', cat:'medical',        desc:'Discovery Medical Aid',          amt:1890, date:'2025-01-28'},
-  {id:17,type:'expense', cat:'food',           desc:'Woolworths Food Court',          amt:245,  date:'2025-01-29'},
-  {id:18,type:'expense', cat:'transport',      desc:'Gautrain Monthly Pass',          amt:1200, date:'2025-01-30'},
+  {id:1,type:'income',cat:'income',desc:'Monthly Salary — Standard Bank',amt:22500,date:'2025-01-01'},
+  {id:2,type:'expense',cat:'fitness',desc:'Planet Fitness Membership',amt:299,date:'2025-01-02'},
+  {id:3,type:'expense',cat:'utilities',desc:'Eskom Electricity Prepaid',amt:850,date:'2025-01-03'},
+  {id:4,type:'expense',cat:'utilities',desc:'Telkom Fibre Internet',amt:799,date:'2025-01-04'},
+  {id:5,type:'expense',cat:'food',desc:'Pick n Pay Monthly Shop',amt:1240,date:'2025-01-06'},
+  {id:6,type:'expense',cat:'transport',desc:'Shell Petrol Sandton',amt:850,date:'2025-01-08'},
+  {id:7,type:'expense',cat:'entertainment',desc:'Netflix Premium',amt:199,date:'2025-01-10'},
+  {id:8,type:'expense',cat:'shopping',desc:'Woolworths Clothing',amt:1367,date:'2025-01-12'},
+  {id:9,type:'expense',cat:'food',desc:'Checkers Weekend Shop',amt:456,date:'2025-01-14'},
+  {id:10,type:'expense',cat:'transport',desc:'Uber Rides — January',amt:340,date:'2025-01-15'},
+  {id:11,type:'expense',cat:'entertainment',desc:'DStv Compact Plus',amt:899,date:'2025-01-18'},
+  {id:12,type:'expense',cat:'food',desc:"Nando's Family Dinner",amt:520,date:'2025-01-20'},
+  {id:13,type:'expense',cat:'shopping',desc:'Takealot — Home Essentials',amt:589,date:'2025-01-22'},
+  {id:14,type:'income',cat:'income',desc:'Freelance Design Project',amt:4500,date:'2025-01-25'},
+  {id:15,type:'expense',cat:'food',desc:'Spar Weekend Groceries',amt:678,date:'2025-01-27'},
+  {id:16,type:'expense',cat:'medical',desc:'Discovery Medical Aid',amt:1890,date:'2025-01-28'},
+  {id:17,type:'expense',cat:'food',desc:'Woolworths Food Court',amt:245,date:'2025-01-29'},
+  {id:18,type:'expense',cat:'transport',desc:'Gautrain Monthly Pass',amt:1200,date:'2025-01-30'},
 ];
 
 let BUDGETS=[
-  {id:1,cat:'food',         limit:3500},
-  {id:2,cat:'transport',    limit:2500},
+  {id:1,cat:'food',limit:3500},
+  {id:2,cat:'transport',limit:2500},
   {id:3,cat:'entertainment',limit:1500},
-  {id:4,cat:'shopping',     limit:2500},
-  {id:5,cat:'fitness',      limit:600},
-  {id:6,cat:'utilities',    limit:2000},
-  {id:7,cat:'medical',      limit:2500},
+  {id:4,cat:'shopping',limit:2500},
+  {id:5,cat:'fitness',limit:600},
+  {id:6,cat:'utilities',limit:2000},
+  {id:7,cat:'medical',limit:2500},
 ];
 
 let nid=200,eTxId=null,eBId=null,delId=null,delType=null;
-
 const f=(n)=>'R\u00A0'+Math.abs(n).toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2});
 const fs=(n)=>'R\u00A0'+Math.abs(n).toLocaleString('en-ZA',{minimumFractionDigits:0,maximumFractionDigits:0});
 const inc=()=>TXS.filter(t=>t.type==='income').reduce((s,t)=>s+t.amt,0);
 const exp=()=>TXS.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amt,0);
 function catSpend(){const r={};TXS.filter(t=>t.type==='expense').forEach(t=>{r[t.cat]=(r[t.cat]||0)+t.amt});return r;}
 function chartData(){return Array.from({length:6},(_,i)=>{const key=`2025-${String(i+1).padStart(2,'0')}`;const v=TXS.filter(t=>t.type==='expense'&&t.date.startsWith(key)).reduce((s,t)=>s+t.amt,0);return{m:MO[i],v};});}
-
 const $=(id)=>document.getElementById(id);
 const txt=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
 const html=(id,v)=>{const e=$(id);if(e)e.innerHTML=v;};
@@ -468,21 +567,15 @@ function go(s){
 
 function renderAll(){
   const i=inc(),e=exp(),b=i-e,cs=catSpend(),cd=chartData();
-  renderHome(i,e,b,cd);
-  renderReports(i,e,b,cs,cd);
-  renderBudget(cs);
-  renderAccount(i,e,b);
+  renderHome(i,e,b,cd);renderReports(i,e,b,cs,cd);renderBudget(cs);renderAccount(i,e,b);
 }
 
 function renderHome(i,e,b,cd){
   const el=$('h-bal');
-  if(el){
-    el.innerHTML=`<span class="bal-cur">R</span>${Math.abs(b).toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
-    el.style.color=b>=0?'var(--t1)':'var(--red)';
-  }
+  if(el){el.innerHTML=`<span class="bal-cur">R</span>${Math.abs(b).toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2})}`;el.style.color=b>=0?'var(--t1)':'var(--red)';}
   const dl=Math.max(31-new Date().getDate(),1);
   txt('h-daily',fs(Math.max(Math.round(b/dl),0))+' per day · '+dl+' days left');
-  txt('h-inc',f(i)); txt('h-exp',f(e)); txt('h-chart-total',f(e));
+  txt('h-inc',f(i));txt('h-exp',f(e));txt('h-chart-total',f(e));
   txt('tx-count',TXS.length+' transactions');
   const gp=Math.round((GOAL.s/GOAL.t)*100);
   const ga=$('goal-arc');
@@ -493,97 +586,53 @@ function renderHome(i,e,b,cd){
 }
 
 function renderReports(i,e,b,cs,cd){
-  txt('r-spent',f(e)); txt('r-inc',f(i));
-  txt('r-rate',(i>0?Math.round(((i-e)/i)*100):0)+'%');
+  txt('r-spent',f(e));txt('r-inc',f(i));txt('r-rate',(i>0?Math.round(((i-e)/i)*100):0)+'%');
   renderChart('chart-rep',cd,82);
   const sorted=Object.entries(cs).filter(([k])=>k!=='income').sort((a,bv)=>bv[1]-a[1]);
   const mx=sorted.length?sorted[0][1]:1;
   let h='<span class="label" style="margin-bottom:14px">By Category</span>';
   if(!sorted.length)h+='<div class="empty">No expenses yet</div>';
   sorted.forEach(([cat,amt],idx)=>{
-    const c=CATS[cat]||CATS.other;
-    const pct=Math.round((amt/mx)*100);
-    h+=`<div style="margin-bottom:${idx<sorted.length-1?'15px':'0'}">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
-        <div style="display:flex;align-items:center;gap:8px;color:${c.c}">
-          <div style="width:30px;height:30px;border-radius:8px;background:${c.c}18;display:flex;align-items:center;justify-content:center">${ico(c.ico,13)}</div>
-          <span style="font-size:12.5px;font-weight:500;color:var(--t1)">${c.l}</span>
-        </div>
-        <span style="font-family:'DM Serif Display',serif;font-size:13px;color:var(--t1)">${f(amt)}</span>
-      </div>
-      <div class="pb"><div class="pb-fill" style="width:${pct}%;background:${c.c}"></div></div>
-    </div>`;
+    const c=CATS[cat]||CATS.other;const pct=Math.round((amt/mx)*100);
+    h+=`<div style="margin-bottom:${idx<sorted.length-1?'15px':'0'}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px"><div style="display:flex;align-items:center;gap:8px;color:${c.c}"><div style="width:30px;height:30px;border-radius:8px;background:${c.c}18;display:flex;align-items:center;justify-content:center">${ico(c.ico,13)}</div><span style="font-size:12.5px;font-weight:500;color:var(--t1)">${c.l}</span></div><span style="font-family:'DM Serif Display',serif;font-size:13px;color:var(--t1)">${f(amt)}</span></div><div class="pb"><div class="pb-fill" style="width:${pct}%;background:${c.c}"></div></div></div>`;
   });
   html('r-cats',h);
   renderTxList('rep-tx-list',[...TXS].sort((a,b)=>b.date.localeCompare(a.date)),true);
 }
 
 function renderBudget(cs){
-  const tl=BUDGETS.reduce((s,b)=>s+b.limit,0);
-  const ts=BUDGETS.reduce((s,b)=>s+(cs[b.cat]||0),0);
+  const tl=BUDGETS.reduce((s,b)=>s+b.limit,0);const ts=BUDGETS.reduce((s,b)=>s+(cs[b.cat]||0),0);
   const op=tl>0?Math.min(Math.round((ts/tl)*100),100):0;
-  txt('b-total',f(tl)); txt('b-pct',op+'%'); txt('b-spent',fs(ts)); txt('b-left',fs(Math.max(tl-ts,0)));
-  const ba=$('b-arc');
-  if(ba){const c=2*Math.PI*22,d=(op/100)*c;ba.setAttribute('stroke-dasharray',d+' '+c);}
-  const bb=$('b-bar');
-  if(bb){bb.style.width=op+'%';bb.className='pb-fill'+(op>=90?' pb-over':op>=75?' pb-warn':'');}
+  txt('b-total',f(tl));txt('b-pct',op+'%');txt('b-spent',fs(ts));txt('b-left',fs(Math.max(tl-ts,0)));
+  const ba=$('b-arc');if(ba){const c=2*Math.PI*22,d=(op/100)*c;ba.setAttribute('stroke-dasharray',d+' '+c);}
+  const bb=$('b-bar');if(bb){bb.style.width=op+'%';bb.className='pb-fill'+(op>=90?' pb-over':op>=75?' pb-warn':'');}
   let h='';
   if(!BUDGETS.length)h='<div class="empty" style="border:1px solid var(--border);border-radius:var(--rc)">No budgets yet.</div>';
   BUDGETS.forEach(b=>{
-    const cat=CATS[b.cat]||CATS.other;
-    const spent=cs[b.cat]||0;
-    const pct=b.limit>0?Math.min(Math.round((spent/b.limit)*100),100):0;
-    const ov=spent>b.limit,wn=pct>=80&&!ov;
-    const chc=ov?'chip chip-r':wn?'chip chip-o':'chip chip-n';
-    const brc='pb-fill'+(ov?' pb-over':wn?' pb-warn':' pb-ok');
-    h+=`<div class="card" style="padding:15px 16px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:11px">
-        <div style="display:flex;align-items:center;gap:10px">
-          <div style="width:38px;height:38px;border-radius:11px;background:${cat.c}16;display:flex;align-items:center;justify-content:center;color:${cat.c}">${ico(cat.ico,16)}</div>
-          <div>
-            <div style="font-size:13.5px;font-weight:500;color:var(--t1)">${cat.l}</div>
-            <div style="font-size:11px;color:var(--t3);margin-top:2px">${f(spent)} of ${f(b.limit)}</div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:5px">
-          <span class="${chc}">${ov?'Over':pct+'%'}</span>
-          <button class="ib" onclick="openEditBudget(${b.id})">${eico()}</button>
-          <button class="ib ib-del" onclick="askDelB(${b.id})">${dico()}</button>
-        </div>
-      </div>
-      <div class="pb"><div class="${brc}" style="width:${pct}%"></div></div>
-    </div>`;
+    const cat=CATS[b.cat]||CATS.other;const spent=cs[b.cat]||0;const pct=b.limit>0?Math.min(Math.round((spent/b.limit)*100),100):0;
+    const ov=spent>b.limit,wn=pct>=80&&!ov;const chc=ov?'chip chip-r':wn?'chip chip-o':'chip chip-n';const brc='pb-fill'+(ov?' pb-over':wn?' pb-warn':' pb-ok');
+    h+=`<div class="card" style="padding:15px 16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:11px"><div style="display:flex;align-items:center;gap:10px"><div style="width:38px;height:38px;border-radius:11px;background:${cat.c}16;display:flex;align-items:center;justify-content:center;color:${cat.c}">${ico(cat.ico,16)}</div><div><div style="font-size:13.5px;font-weight:500;color:var(--t1)">${cat.l}</div><div style="font-size:11px;color:var(--t3);margin-top:2px">${f(spent)} of ${f(b.limit)}</div></div></div><div style="display:flex;align-items:center;gap:5px"><span class="${chc}">${ov?'Over':pct+'%'}</span><button class="ib" onclick="openEditBudget(${b.id})">${eico()}</button><button class="ib ib-del" onclick="askDelB(${b.id})">${dico()}</button></div></div><div class="pb"><div class="${brc}" style="width:${pct}%"></div></div></div>`;
   });
   html('budget-list',h);
 }
 
 function renderAccount(i,e,b){
   const rate=i>0?Math.round(((i-e)/i)*100):0;
-  txt('acc-rate',rate+'%'); txt('acc-count',TXS.length);
-  const ne=$('acc-net');
-  if(ne){ne.textContent=fs(b);ne.style.color=b>=0?'var(--green)':'var(--red)';}
+  txt('acc-rate',rate+'%');txt('acc-count',TXS.length);
+  const ne=$('acc-net');if(ne){ne.textContent=fs(b);ne.style.color=b>=0?'var(--green)':'var(--red)';}
   txt('acc-nlbl',b>=0?'Surplus':'Deficit');
   const gp=Math.round((GOAL.s/GOAL.t)*100);
-  const ag=$('acc-garc');
-  if(ag){const c=2*Math.PI*18,d=(gp/100)*c;ag.setAttribute('stroke-dasharray',d+' '+c);}
-  txt('acc-gpct',gp+'%');
-  const gb=$('acc-gbar');
-  if(gb)gb.style.width=gp+'%';
+  const ag=$('acc-garc');if(ag){const c=2*Math.PI*18,d=(gp/100)*c;ag.setAttribute('stroke-dasharray',d+' '+c);}
+  txt('acc-gpct',gp+'%');const gb=$('acc-gbar');if(gb)gb.style.width=gp+'%';
 }
 
 function renderChart(id,data,h){
-  const svg=$(id); if(!svg)return;
-  const max=Math.max(...data.map(d=>d.v),1);
-  const W=280,n=data.length,sw=W/n,bw=sw*.5,bx=sw*.25;
+  const svg=$(id);if(!svg)return;
+  const max=Math.max(...data.map(d=>d.v),1);const W=280,n=data.length,sw=W/n,bw=sw*.5,bx=sw*.25;
   let out='';
-  [.25,.5,.75,1].forEach(f=>{
-    const y=h-f*h;
-    out+=`<line x1="0" y1="${y.toFixed(1)}" x2="${W}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>`;
-  });
+  [.25,.5,.75,1].forEach(f=>{const y=h-f*h;out+=`<line x1="0" y1="${y.toFixed(1)}" x2="${W}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>`;});
   data.forEach((d,i)=>{
-    const bh=max>0?(d.v/max)*h:2;
-    const x=(i*sw+bx).toFixed(1),y=(h-bh).toFixed(1);
-    const isM=d.v===max&&d.v>0;
+    const bh=max>0?(d.v/max)*h:2;const x=(i*sw+bx).toFixed(1),y=(h-bh).toFixed(1);const isM=d.v===max&&d.v>0;
     out+=`<rect x="${x}" y="${y}" width="${bw.toFixed(1)}" height="${Math.max(bh,2).toFixed(1)}" rx="4" fill="${isM?'var(--accent)':'rgba(255,255,255,0.08)'}"/>`;
     out+=`<text x="${(i*sw+bx+bw/2).toFixed(1)}" y="${h+13}" text-anchor="middle" font-size="7.5" fill="rgba(255,255,255,0.28)" font-family="DM Sans,sans-serif">${d.m}</text>`;
     if(isM&&d.v>0)out+=`<text x="${(i*sw+bx+bw/2).toFixed(1)}" y="${(h-bh-4).toFixed(1)}" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.65)" font-family="DM Sans,sans-serif" font-weight="500">${fs(d.v)}</text>`;
@@ -592,23 +641,13 @@ function renderChart(id,data,h){
 }
 
 function renderTxList(cid,list,actions){
-  const el=$(cid); if(!el)return;
+  const el=$(cid);if(!el)return;
   if(!list.length){el.innerHTML='<div class="empty">No transactions yet</div>';return;}
   let h='';
   list.forEach((t,i)=>{
-    const c=CATS[t.cat]||CATS.other;
-    const sign=t.type==='income'?'+':'−';
-    const cls=t.type==='income'?'amt-in':'amt-ex';
+    const c=CATS[t.cat]||CATS.other;const sign=t.type==='income'?'+':'−';const cls=t.type==='income'?'amt-in':'amt-ex';
     const ac=actions?`<div class="ra"><button class="ib" onclick="openEditTx(${t.id})">${eico()}</button><button class="ib ib-del" onclick="askDelTx(${t.id})">${dico()}</button></div>`:'';
-    h+=`<div class="tx-row">
-      <div class="cat-ic" style="background:${c.c}18;color:${c.c}">${ico(c.ico,16)}</div>
-      <div class="tx-info">
-        <div class="tx-desc">${t.desc}</div>
-        <div class="tx-sub">${c.l} · ${t.date.slice(5).replace('-',' ')}</div>
-      </div>
-      <span class="tx-amt ${cls}">${sign}${f(t.amt)}</span>
-      ${ac}
-    </div>`;
+    h+=`<div class="tx-row"><div class="cat-ic" style="background:${c.c}18;color:${c.c}">${ico(c.ico,16)}</div><div class="tx-info"><div class="tx-desc">${t.desc}</div><div class="tx-sub">${c.l} · ${t.date.slice(5).replace('-',' ')}</div></div><span class="tx-amt ${cls}">${sign}${f(t.amt)}</span>${ac}</div>`;
     if(i<list.length-1)h+=`<div class="sep"></div>`;
   });
   el.innerHTML=h;
@@ -617,104 +656,29 @@ function renderTxList(cid,list,actions){
 const eico=()=>`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>`;
 const dico=()=>`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
 
-function openOv(sid){
-  $('ov').classList.add('open');
-  ['st','sb','sd'].forEach(id=>{$(id).style.display=id===sid?'block':'none'});
-}
+function openOv(sid){$('ov').classList.add('open');['st','sb','sd'].forEach(id=>{$(id).style.display=id===sid?'block':'none'});}
 function closeM(){$('ov').classList.remove('open');}
 function bgClick(e){if(e.target===$('ov'))closeM();}
 
 function fillCatSel(selId,disabled){
-  const sel=$(selId); sel.innerHTML='';
+  const sel=$(selId);sel.innerHTML='';
   EXP.forEach(([k,v])=>{const o=document.createElement('option');o.value=k;o.textContent=v.l;sel.appendChild(o);});
-  sel.disabled=!!disabled; sel.style.opacity=disabled?'.45':'1';
+  sel.disabled=!!disabled;sel.style.opacity=disabled?'.45':'1';
 }
 
-function openAddTx(){
-  eTxId=null; txt('tm','Add Transaction'); txt('tsb','Add');
-  setType('expense'); fillCatSel('tc',false);
-  $('td').value=''; $('ta').value=''; $('tdt').value=new Date().toISOString().slice(0,10);
-  openOv('st');
-}
-function openEditTx(id){
-  const t=TXS.find(x=>x.id===id); if(!t)return;
-  eTxId=id; txt('tm','Edit'); txt('tsb','Save');
-  setType(t.type); fillCatSel('tc',false);
-  if(t.type==='expense') $('tc').value=t.cat;
-  $('td').value=t.desc; $('ta').value=t.amt; $('tdt').value=t.date;
-  openOv('st');
-}
-function setType(type){
-  const isE=type==='expense';
-  $('te').className='tog'+(isE?' e':''); $('ti').className='tog'+(!isE?' i':'');
-  $('cg').style.display=isE?'block':'none';
-  $('st').dataset.type=type;
-}
-function saveTx(){
-  const type=$('st').dataset.type||'expense';
-  const desc=$('td').value.trim();
-  const amt=parseFloat($('ta').value);
-  const date=$('tdt').value;
-  const cat=type==='income'?'income':$('tc').value;
-  if(!desc||isNaN(amt)||amt<=0||!date)return;
-  if(eTxId){TXS=TXS.map(t=>t.id===eTxId?{...t,type,cat,desc,amt,date}:t);toast('Transaction updated');}
-  else{TXS.unshift({id:nid++,type,cat,desc,amt,date});toast('Transaction added');}
-  closeM(); renderAll();
-}
-
-function openAddBudget(){
-  eBId=null; txt('bm','Set Budget'); txt('bsb','Set Budget');
-  fillCatSel('bc',false); $('bl').value=''; openOv('sb');
-}
-function openEditBudget(id){
-  const b=BUDGETS.find(x=>x.id===id); if(!b)return;
-  eBId=id; txt('bm','Edit Budget'); txt('bsb','Update');
-  const cat=CATS[b.cat]||CATS.other;
-  const sel=$('bc'); sel.innerHTML=`<option value="${b.cat}">${cat.l}</option>`;
-  sel.disabled=true; sel.style.opacity='.45';
-  $('bl').value=b.limit; openOv('sb');
-}
-function saveBudget(){
-  const cat=$('bc').value;
-  const limit=parseFloat($('bl').value);
-  if(!cat||isNaN(limit)||limit<=0)return;
-  if(eBId){BUDGETS=BUDGETS.map(b=>b.id===eBId?{...b,limit}:b);toast('Budget updated');}
-  else{
-    const ex=BUDGETS.find(b=>b.cat===cat);
-    if(ex)BUDGETS=BUDGETS.map(b=>b.cat===cat?{...b,limit}:b);
-    else BUDGETS.push({id:nid++,cat,limit});
-    toast('Budget set');
-  }
-  closeM(); renderAll();
-}
-
-function askDelTx(id){
-  const t=TXS.find(x=>x.id===id); if(!t)return;
-  delId=id; delType='tx';
-  txt('dlbl',`Remove "${t.desc}"? This cannot be undone.`);
-  openOv('sd');
-}
-function askDelB(id){
-  const b=BUDGETS.find(x=>x.id===id); if(!b)return;
-  delId=id; delType='budget';
-  txt('dlbl',`Remove the ${(CATS[b.cat]||CATS.other).l} budget?`);
-  openOv('sd');
-}
-function doDelete(){
-  if(delType==='tx'){TXS=TXS.filter(t=>t.id!==delId);toast('Transaction deleted');}
-  else{BUDGETS=BUDGETS.filter(b=>b.id!==delId);toast('Budget removed');}
-  delId=null; delType=null; closeM(); renderAll();
-}
+function openAddTx(){eTxId=null;txt('tm','Add Transaction');txt('tsb','Add');setType('expense');fillCatSel('tc',false);$('td').value='';$('ta').value='';$('tdt').value=new Date().toISOString().slice(0,10);openOv('st');}
+function openEditTx(id){const t=TXS.find(x=>x.id===id);if(!t)return;eTxId=id;txt('tm','Edit');txt('tsb','Save');setType(t.type);fillCatSel('tc',false);if(t.type==='expense')$('tc').value=t.cat;$('td').value=t.desc;$('ta').value=t.amt;$('tdt').value=t.date;openOv('st');}
+function setType(type){const isE=type==='expense';$('te').className='tog'+(isE?' e':'');$('ti').className='tog'+(!isE?' i':'');$('cg').style.display=isE?'block':'none';$('st').dataset.type=type;}
+function saveTx(){const type=$('st').dataset.type||'expense';const desc=$('td').value.trim();const amt=parseFloat($('ta').value);const date=$('tdt').value;const cat=type==='income'?'income':$('tc').value;if(!desc||isNaN(amt)||amt<=0||!date)return;if(eTxId){TXS=TXS.map(t=>t.id===eTxId?{...t,type,cat,desc,amt,date}:t);toast('Transaction updated');}else{TXS.unshift({id:nid++,type,cat,desc,amt,date});toast('Transaction added');}closeM();renderAll();}
+function openAddBudget(){eBId=null;txt('bm','Set Budget');txt('bsb','Set Budget');fillCatSel('bc',false);$('bl').value='';openOv('sb');}
+function openEditBudget(id){const b=BUDGETS.find(x=>x.id===id);if(!b)return;eBId=id;txt('bm','Edit Budget');txt('bsb','Update');const cat=CATS[b.cat]||CATS.other;const sel=$('bc');sel.innerHTML=`<option value="${b.cat}">${cat.l}</option>`;sel.disabled=true;sel.style.opacity='.45';$('bl').value=b.limit;openOv('sb');}
+function saveBudget(){const cat=$('bc').value;const limit=parseFloat($('bl').value);if(!cat||isNaN(limit)||limit<=0)return;if(eBId){BUDGETS=BUDGETS.map(b=>b.id===eBId?{...b,limit}:b);toast('Budget updated');}else{const ex=BUDGETS.find(b=>b.cat===cat);if(ex)BUDGETS=BUDGETS.map(b=>b.cat===cat?{...b,limit}:b);else BUDGETS.push({id:nid++,cat,limit});toast('Budget set');}closeM();renderAll();}
+function askDelTx(id){const t=TXS.find(x=>x.id===id);if(!t)return;delId=id;delType='tx';txt('dlbl',`Remove "${t.desc}"? This cannot be undone.`);openOv('sd');}
+function askDelB(id){const b=BUDGETS.find(x=>x.id===id);if(!b)return;delId=id;delType='budget';txt('dlbl',`Remove the ${(CATS[b.cat]||CATS.other).l} budget?`);openOv('sd');}
+function doDelete(){if(delType==='tx'){TXS=TXS.filter(t=>t.id!==delId);toast('Transaction deleted');}else{BUDGETS=BUDGETS.filter(b=>b.id!==delId);toast('Budget removed');}delId=null;delType=null;closeM();renderAll();}
 
 let tt=null;
-function toast(msg){
-  const el=$('toast');
-  el.textContent='✓  '+msg; el.style.display='block';
-  if(tt)clearTimeout(tt);
-  tt=setTimeout(()=>{el.style.display='none';},2000);
-}
-
-renderAll();
+function toast(msg){const el=$('toast');el.textContent='✓  '+msg;el.style.display='block';if(tt)clearTimeout(tt);tt=setTimeout(()=>{el.style.display='none';},2000);}
 </script>
 </body>
 </html>
